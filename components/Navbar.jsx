@@ -14,10 +14,6 @@ export default function Navbar() {
             url: "/about"
         },
         {
-            label: "Contact",
-            url: "/contact"
-        },
-        {
             label: "Feed",
             url: "/feed"
         },
@@ -38,7 +34,7 @@ export default function Navbar() {
                 />
             </Link>
 
-            <div className="flex items-center gap-10">
+            <div className="flex items-center gap-10 ml-auto px-10">
                 {
                     navLinks.map((item) => (
                         <Link href={item.url} className="hover:text-purple-700 transition-colors duration-200">{item.label}</Link>

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { PiUser } from "react-icons/pi";
 
 export default function Navbar() {
     const navLinks = [
@@ -44,6 +45,8 @@ export default function Navbar() {
                     ))
                 }
             </div>
+
+            <Link className="flex items-center gap-1 hover:text-purple-700 transition-all duration-200" href={"#"}>Sign In <PiUser /></Link>
         </main>
     )
 }

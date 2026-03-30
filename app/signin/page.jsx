@@ -12,16 +12,16 @@ export default function Signin () {
                     <button className="w-full bg-purple-600 text-white p-2 rounded-md hover:-translate-y-1 transition-all duration-200">Sign In</button>
                 </form>
                 
-                <div className="border w-full">
-                    <div></div>
+                <div className="w-full flex items-center gap-2 justify-center">
+                    <div className="border-t w-full border-gray-400"></div>
                     <p>or</p>
-                    <div></div>
+                    <div className="border-t w-full border-gray-400"></div>
                 </div>
 
-                <div>
-                    <button><FcGoogle /></button>
-                    <button><FaGithub /></button>
-                    <button><FaApple /></button>
+                <div className="w-full flex items-center justify-center gap-5">
+                    <button className="border p-5 text-3xl rounded-md border-gray-400 cursor-pointer"><FcGoogle /></button>
+                    <button className="border p-5 text-3xl rounded-md border-gray-400 cursor-pointer"><FaGithub /></button>
+                    <button className="border p-5 text-3xl rounded-md border-gray-400 cursor-pointer"><FaApple /></button>
                 </div>
             </section>
         </main>

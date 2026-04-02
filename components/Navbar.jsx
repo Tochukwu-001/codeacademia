@@ -5,8 +5,15 @@ import { PiUser } from "react-icons/pi";
 import { TbMenu } from "react-icons/tb";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
+import { useSession } from "next-auth/react"
+import Avatar from '@mui/material/Avatar';
+
 
 export default function Navbar() {
+
+    const { data: session } = useSession()
+    console.log(session);
+
 
     const [navOpen, setNavOpen] = useState(false)
 
@@ -58,7 +65,13 @@ export default function Navbar() {
                 }
             </div>
 
-            <Link className="flex items-center gap-1 hover:text-purple-700 transition-all duration-200 max-md:ml-auto z-50" href={"/signin"}><p className="max-md:hidden">Sign In</p><PiUser className="max-md:text-2xl text-lg" /></Link>
+            {
+                session ? <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    : (
+                        <Link className="flex items-center gap-1 hover:text-purple-700 transition-all duration-200 max-md:ml-auto z-50" href={"/signin"}><p className="max-md:hidden">Sign In</p><PiUser className="max-md:text-2xl text-lg" /></Link>
+                    )
+            }
+
 
             <button onClick={() => setNavOpen(!navOpen)} className="text-2xl md:hidden ml-5 z-50">
                 {

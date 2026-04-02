@@ -2,12 +2,17 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa6";
 import { FaApple } from "react-icons/fa";
 import { auth, signIn } from "@/auth"
+import { redirect } from "next/navigation";
 
 
 export default async function Signin() {
 
     const session = await auth()
-    console.log(session);
+    // console.log(session);
+
+    if (session) {
+        redirect("/")
+    }
     
     return (
         <main className="min-h-dvh flex items-center justify-center p-3">

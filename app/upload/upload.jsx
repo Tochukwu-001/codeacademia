@@ -4,26 +4,16 @@ import { FaRegPaperPlane } from "react-icons/fa";
 import * as Yup from 'yup';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '@/config/firebase.config';
-
+import { useState } from 'react';
+import { FiLoader } from "react-icons/fi";
 
 export default function UploadClient({ session }) {
+
+    const [sending, setSending] = useState(false)
 
     const author = session.user.name
     const authorImg = session.user.image
     const timestamp = new Date().toLocaleDateString()
-
-    const handleSubmit = async () => {
-        try {
-            const docRef = await addDoc(collection(db, "tutorials"), {
-                // values,
-                author, authorImg, timestamp
-            })
-            alert("Success")
-        } catch (error) {
-            console.error("Error in submission", error)
-            alert("Something went wrong")
-        }
-    }
 
     const initVal = {
         title: "",
@@ -47,8 +37,9 @@ export default function UploadClient({ session }) {
             <Formik
                 initialValues={initVal}
                 validationSchema={formValidation}
-                onSubmit={ async (values) => {
+                onSubmit={async (values, {resetForm}) => {
                     try {
+                        setSending(true)
                         const docRef = await addDoc(collection(db, "tutorials"), {
                             ...values,
                             author, authorImg, timestamp
@@ -57,6 +48,9 @@ export default function UploadClient({ session }) {
                     } catch (error) {
                         console.error("Error in submission", error)
                         alert("Something went wrong")
+                    } finally {
+                        setSending(false)
+                        resetForm()
                     }
                 }}
             >
@@ -106,11 +100,14 @@ export default function UploadClient({ session }) {
                         <ErrorMessage component={"p"} className='text-xs text-red-600' name='youtube' />
                     </div>
 
-                    <button type='submit' className='bg-purple-600 text-white px-6 py-2 rounded-md max-md:w-full w-fit text-xl uppercase'>
-                        <span className='flex items-center justify-center gap-2'>
-                            Post
-                            <FaRegPaperPlane />
-                        </span>
+                    <button disabled={sending} type='submit' className='bg-purple-600 text-white px-6 py-2 rounded-md max-md:w-full w-fit text-xl uppercase'>
+                        {
+                            sending ? <FiLoader className='animate-spin text-2xl' /> :
+                                <span className='flex items-center justify-center gap-2'>
+                                    Post
+                                    <FaRegPaperPlane />
+                                </span>
+                        }
                     </button>
                 </Form>
             </Formik>

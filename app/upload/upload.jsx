@@ -6,10 +6,26 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from '@/config/firebase.config';
 import { useState } from 'react';
 import { FiLoader } from "react-icons/fi";
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+};
 
 export default function UploadClient({ session }) {
 
     const [sending, setSending] = useState(false)
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const author = session.user.name
     const authorImg = session.user.image
@@ -37,7 +53,7 @@ export default function UploadClient({ session }) {
             <Formik
                 initialValues={initVal}
                 validationSchema={formValidation}
-                onSubmit={async (values, {resetForm}) => {
+                onSubmit={async (values, { resetForm }) => {
                     try {
                         setSending(true)
                         const docRef = await addDoc(collection(db, "tutorials"), {

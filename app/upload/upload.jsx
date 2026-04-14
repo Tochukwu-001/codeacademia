@@ -8,6 +8,9 @@ import { useState } from 'react';
 import { FiLoader } from "react-icons/fi";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { CiCircleCheck } from "react-icons/ci";
+import Box from '@mui/material/Box';
+
 
 const style = {
     position: 'absolute',
@@ -60,7 +63,7 @@ export default function UploadClient({ session }) {
                             ...values,
                             author, authorImg, timestamp
                         })
-                        alert("Success")
+                        handleOpen()
                     } catch (error) {
                         console.error("Error in submission", error)
                         alert("Something went wrong")
@@ -127,6 +130,24 @@ export default function UploadClient({ session }) {
                     </button>
                 </Form>
             </Formik>
+
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style} className="flex items-center justify-center gap-5 flex-col">
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            <CiCircleCheck className='text-7xl text-green-600' />
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Your post was sucessful
+                        </Typography>
+                    </Box>
+                </Modal>
+            </div>
         </main>
     )
 }

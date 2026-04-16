@@ -11,7 +11,7 @@ export default async function Signin() {
     // console.log(session);
 
     if (session) {
-        redirect("/")
+        redirect("/feed")
     }
     
     return (

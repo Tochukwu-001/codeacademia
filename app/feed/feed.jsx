@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import { CiTrash } from "react-icons/ci";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdArrowOutward } from "react-icons/md";
+import { doc, deleteDoc } from "firebase/firestore";
 
 
 export default function FeedClient({ session }) {
     const [feed, setFeed] = useState([])
 
+    // fetch function
     const handleFetch = async () => {
         const info = []
         const querySnapshot = await getDocs(collection(db, "tutorials"));
@@ -25,7 +27,17 @@ export default function FeedClient({ session }) {
 
         });
         setFeed(info)
-        // console.log(feed, info);        
+        console.log(feed);        
+    }
+
+    // delete function
+    const handleDelete = async (id) => {
+        try {
+            await deleteDoc(doc(db, "tutorials", id));
+        } catch (error) {
+           console.error("Error>>>>>>>", error) 
+           alert("An error occurred while deleting")
+        }  
     }
 
     useEffect(() => {
@@ -49,7 +61,7 @@ export default function FeedClient({ session }) {
                                     <img src={item.authorImg} alt={item.author.slice(0, 1)} className="w-8 h-8 rounded-full" />
                                     <p className="text-sm">{item.author}</p>
                                 </div>
-                                <button className="bg-red-500 text-white p-2 rounded-full hover:scale-110 transition-all duration-200"><CiTrash /></button>
+                                <button onClick={()=> handleDelete(item.id)} className="bg-red-500 text-white p-2 rounded-full hover:scale-110 transition-all duration-200"><CiTrash /></button>
                             </div>
                             <div className="space-y-2">
                                 <h1 className="text-center font-semibold text-xl">{item.title}</h1>
@@ -60,7 +72,7 @@ export default function FeedClient({ session }) {
                             </div>
                             <div className="border rounded-md border-gray-300 p-2 flex items-center justify-between">
                                 <p className="text-xs text-gray-500">{item.timestamp}</p>
-                                <Link className="flex items-center text-sm text-gray-600" href={"#"}>Read More <MdKeyboardDoubleArrowRight className="text-lg" /></Link>
+                                <Link className="flex items-center text-sm text-gray-600" href={`/feed/${item.id}`}>Read More <MdKeyboardDoubleArrowRight className="text-lg" /></Link>
                             </div>
                         </div>
                     ))

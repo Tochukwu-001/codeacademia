@@ -1,5 +1,6 @@
 import { db } from '@/config/firebase.config'
 import { doc, getDoc } from 'firebase/firestore'
+import Link from 'next/link';
 import React from 'react'
 
 const singleReview = async (id) => {
@@ -22,17 +23,30 @@ const singleReview = async (id) => {
   }
 };
 
-const page = async ({params}) => {
-    const sortedParams = await params
-    const singleDoc = await singleReview(sortedParams.id)
-    console.log(singleDoc);
-    // console.log(params);
-    
-    
+const page = async ({ params }) => {
+  const sortedParams = await params
+  const singleDoc = await singleReview(sortedParams.id)
+  console.log(singleDoc);
+  // console.log(params);
+
+
   return (
-    <div>
-      Dynamic page
-    </div>
+    <main className='min-h-dvh p-4 flex flex-col gap-7 items-center max-w-1/2 mx-auto shadow-sm my-10'>
+      <h1 className='text-3xl text-center'>{singleDoc.title}</h1>
+      <p className='text-sm text-gray-700'>by {singleDoc.author}</p>
+      <img src={singleDoc.authorImg} alt={singleDoc.author} className='w-20 h-20 rounded-full' />
+      <p>Language: {singleDoc.language}</p>
+      <p className='font-thin text-lg'>{singleDoc.description}</p>
+      <div>
+        <p className='text-xs text-gray-700'>Code Snippet:</p>
+        <p className='italic font-thin text-base'>{singleDoc.snippet}</p>
+      </div>
+      {
+        singleDoc.youtube &&
+        <Link href={singleDoc.youtube}>Watch on Youtube</Link>
+      }
+      <p className='ml-auto text-xs text-gray-700'>Posted on {singleDoc.timestamp}</p>
+    </main>
   )
 }
 
